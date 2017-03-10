@@ -1,0 +1,357 @@
+/* CakeBlog Admin CSS Version 0.1 */
+
+/* MAIN STYLES */
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	padding: 0px;
+	margin: 0px;
+	background: #000;
+	color: #FFF;
+}
+
+a:link, a:visited, a:active {
+	
+}
+
+a:hover {
+	
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+	padding: 0px;	
+}
+
+/* ERROR MESSAGE */
+.message.error {
+    max-width: 35%;
+    margin: 10px auto 10px auto;
+    border: 1px solid #FFF;
+    background: #600;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+.message.success {
+    max-width: 35%;
+    margin: 10px auto 10px auto;
+    border: 1px solid #FFF;
+    background: #8bc34a;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+    color: #000;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+/* FORMATTING */
+.floatleft {
+	float: left;
+}
+
+.floatright {
+	float: right;
+}
+
+.center {
+	display: block;
+	margin: 0 auto;	
+}
+
+.textleft {
+	text-align: left;
+	display: block;
+}
+
+.textright {
+	text-align: right;	
+	display: block;
+}
+
+.textcenter {
+	text-align: center;	
+	display: block;
+}
+
+/* FORM STYLES */
+label {
+    display: block;
+    margin: 0px;
+	font-weight: bold;
+	
+}
+
+input, textarea, select {
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 99%;
+    font-size: 12px;
+    line-height:15px;
+    box-shadow: inset 0px 1px 4px #ECECEC;
+    -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+    -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+input[type="submit"] {
+	width: 100%;	
+}
+textarea{
+    padding: 5px 3px 3px 5px;
+	min-height: 150px;
+}
+select {
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 100%;
+    height: 35px;
+    line-height: 25px;
+}
+
+/* POSITIONING */
+#nav {
+	width: 150px;
+	min-width: 150px;
+	display: table-cell;
+}
+
+#content {
+	width: 100%;
+	max-width: 100%;
+	display: table-cell;
+}
+
+#container_padding {
+	margin: 10px;
+}
+
+#footer {
+	float: left;
+	clear: both;
+	width: 100%;
+}
+
+/* HEADER */
+#header h1 {
+	font-size: 24px;
+}
+
+#header h2 {
+	font-size: 10px;
+	font-style: italic;
+	padding-bottom: 10px;
+}
+
+/* NAV */
+#nav {
+	background: #000;
+	height: 100%;
+	vertical-align: top;
+	font-size: 10px;
+}
+
+#nav ul {
+	padding: 0px 0px 0px 15px;
+	margin: 0px;
+}
+
+#nav a:link, #nav a:visited {
+	color: #FFF;
+	text-decoration: none;
+}
+
+#nav a:hover {
+	color: #FFF;
+	text-decoration: underline;
+}
+
+/* CONTENT */
+#content {
+	background: #FFF;
+	color: #000;
+	min-height: 250px;
+}
+
+.add_item {
+    color: #FFF;
+    background: #259b24;
+    border-radius: 5px;
+    font-size: 10px;
+    display: block;
+    padding: 3px;
+    margin: 3px;
+    text-decoration: none;
+}
+
+.add_item:hover {
+    background: #8bc34a;
+}
+
+/* ACTIONS */
+.actions {
+    width: 100px;
+}
+
+.actions a, .actions a:visited, .actions a:active, .actions a:hover {
+    color: #FFF;
+    text-decoration: none;
+    font-size: 10px;
+    display: block;
+    float: left;
+}
+
+.actions .edit {
+    background: #259b24;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+}
+
+.actions .edit:hover {
+    background: #8bc34a;
+}
+
+.actions .delete {
+    background: #990000;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+}
+
+.actions .delete:hover {
+    background: #FF0000;
+}
+
+/* PAGINATION */
+.pagination {
+    clear:both;
+    margin: 10px auto 10px auto;
+    float: left;
+}
+
+.pagination li {
+    list-style-type: none;
+    float:left;
+    margin-right: 2px;
+    margin-left: 2px;
+    font-size:13px;
+}
+
+.pagination li a {
+    border:solid 1px #000;
+    padding:6px 8px;
+    display:block;
+}
+
+.pagination li a:link,
+.pagination li a:visited {
+    color:#000;
+    text-decoration:none;
+}
+
+.pagination li.active, .pagination li.active a {
+    background: #000;
+    color: #FFF;
+}
+
+.pagination li a:hover {
+    border:solid 1px #000;
+    background:#000000;
+    color:#FFFFFF;
+}
+
+/* CAKEPHP AUTO SORT */
+#my-list ul {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#my-list li {
+    clear: both;
+    max-width: 100%;
+    list-style-type: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#my-list #column {
+    width: 24%;
+    padding: 3px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#my-list #column_head {
+    width: 25%;
+    background: #000;
+    color: #FFF;
+    font-weight: bold;
+    float: left;
+    text-align: left;
+    text-indent: 5px;
+    line-height: 30px;
+}
+
+#my-list .altrow {
+    background: #CCC;
+}
+
+#my-list .row {
+    background: #8f8f8f;
+}
+
+#my-list .center {
+    text-align: center;
+}
+
+/* JS SORTABLE */
+table.sortable thead {
+    background-color:#282828;
+    color:#FFF;
+    font-weight: bold;
+    cursor: default;
+    line-height: 25px;
+    text-transform: uppercase;
+    text-align: left;
+    text-indent: 5px;
+}
+
+.sortable .altrow {
+    background: #CCC;
+}
+
+.sortable td {
+    padding: 5px;
+}
+
+.sortable {
+    font-size: 14px;
+}
+
+/* FOOTER */
+#footer {
+}
+
+#footer p {
+	font-size: 10px;
+	font-style: italic;
+}
+
+#footer a, #footer a:visited {
+    color: #FFF;
+}

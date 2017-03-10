@@ -1,0 +1,376 @@
+/* CakeBlog CSS Version 0.1 */
+
+/* MAIN STYLES */
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	background: #999;
+	padding: 5px;
+	margin: 0px;
+}
+
+a:link, a:visited, a:active {
+	
+}
+
+a:hover {
+	
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+	padding: 0px;	
+}
+
+/* ERROR MESSAGE */
+.message.error {
+    max-width: 35%;
+    margin: 10px auto 10px auto;
+    border: 1px solid #FFF;
+    background: #600;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+.message.success {
+    max-width: 35%;
+    margin: 10px auto 10px auto;
+    border: 1px solid #FFF;
+    background: #8bc34a;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+    color: #000;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+/* FORMATTING */
+.floatleft {
+	float: left;
+}
+
+.floatright {
+	float: right;
+}
+
+.center {
+	display: block;
+	margin: 0 auto;	
+}
+
+.textleft {
+	text-align: left;
+	display: block;
+}
+
+.textright {
+	text-align: right;	
+	display: block;
+}
+
+.textcenter {
+	text-align: center;	
+	display: block;
+}
+
+/* FORM STYLES */
+label {
+    display: block;
+    margin: 0px;
+	font-weight: bold;
+	
+}
+
+input, textarea, select {
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 99%;
+    font-size: 12px;
+    line-height:15px;
+    box-shadow: inset 0px 1px 4px #ECECEC;
+    -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+    -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+input[type="submit"] {
+	width: 100%;	
+}
+textarea{
+    padding: 5px 3px 3px 5px;
+	min-height: 150px;
+}
+select {
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 100%;
+    height: 35px;
+    line-height: 25px;
+}
+
+/* POSITIONING */
+#container {
+	max-width: 1024px;
+	width: 99%;
+	margin: 10px auto 10px auto;
+}
+
+#container_padding {
+	padding: 15px;
+}
+
+#header {
+}
+
+#content {
+	max-width: 70%;
+	width: 100%;
+	float: left;
+	vertical-align: top;
+}
+
+#sidebar {
+	max-width: 30%;
+	width: 100%;
+	float: right;
+	vertical-align: top;
+}
+
+#sidebar_padding {
+	padding: 0px 0px 0px 30px;
+}
+
+#footer {
+	clear: both;
+}
+
+/* CONTAINER */
+#container {
+	border: 3px solid #000;
+	background: #FFF;
+	border-radius: 5px;
+}
+
+/* HEADER */
+#header {
+}
+
+#header h1 {
+	font-size: 24px;
+}
+
+#header h2 {
+	font-size: 10px;
+	font-style: italic;
+}
+/* NAV */
+#mobile_nav {display: none;}
+
+#nav {
+	margin: 0px; 
+}
+
+#nav ul ul {
+	display: none;
+}
+
+	#nav ul li:hover > ul {
+		display: block;
+		z-index: 9999;
+	}
+
+
+#nav ul {
+	background: #000;
+	border-radius:  5px;
+	padding: 0 10px; 
+	list-style: none;
+	position: relative;
+	display: inline-table;
+}
+	#nav ul:after {
+		content: ""; clear: both; display: block;
+	}
+
+	#nav ul li {
+		float: left;
+	}
+		#nav ul li:hover {
+			background: #4b545f;
+		}
+			#nav ul li:hover a {
+				color: #fff;
+			}
+		
+		#nav ul li a {
+			display: block; padding: 15px 30px;
+			color: #fff; text-decoration: none;
+		}
+			
+		
+	#nav ul ul {
+		background: #5f6975; border-radius: 0px; padding: 0;
+		position: absolute; top: 100%;
+	}
+		#nav ul ul li {
+			float: none; 
+			border-top: 1px solid #6b727c;
+			border-bottom: 1px solid #575f6a; position: relative;
+		}
+			#nav ul ul li a {
+				padding: 10px 40px;
+				color: #fff;
+			}	
+				#nav ul ul li a:hover {
+					background: #4b545f;
+				}
+		
+	#nav ul ul ul {
+		position: absolute; left: 100%; top:0;
+	}
+
+/* SLIDER */
+#slider {
+	max-width: 994px;
+	margin: 0 auto;
+	height: auto;
+	padding-bottom: 10px;
+	float: left;
+	clear: both;
+}
+
+#slider img {
+	border: 1px solid #000;
+	border-radius: 5px;
+}
+
+#slider .flex-caption {
+    position:absolute;
+    left:0;
+    right:-1px;
+    bottom:0;
+	color: #FFF;   
+    padding: 10px;
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 0px 0px 5px 5px;
+}
+
+#slider .flex-caption a:link, #slider .flex-caption a:visited {
+	color: #FFF;
+}
+
+#slider .flex-caption p {
+	margin: 0 auto;
+	padding: 0px;
+}
+
+/* CONTENT */
+
+/* SIDEBAR */
+#sidebar {
+
+}
+
+.sidebar_item {
+	margin: 0px 0px 10px 0px;
+}
+
+/* ARTICLES */
+article {
+	clear: both;
+	margin: 0px 0px 20px 0px;
+	padding: 5px 5px 25px 5px;
+	border-bottom: 1px dotted #CCC;
+}
+
+article .featured {
+	max-width: 100%;
+	border: 1px solid #000;
+	border-radius: 5px;
+}
+
+article .readmore {
+	float: right;
+}
+
+/* PAGINATION */
+.pagination {
+    clear:both;
+    margin: 0 auto;
+}
+
+.pagination li {
+    list-style-type: none;
+    float:left;
+    margin-right: 2px;
+    margin-left: 2px;
+    font-size:13px;
+}
+
+.pagination li a {
+    border:solid 1px #000;
+    padding:6px 8px;
+    display:block;
+}
+
+.pagination li a:link,
+.pagination li a:visited {
+    color:#000;
+    text-decoration:none;
+}
+
+.pagination li.active, .pagination li.active a {
+    background: #000;
+	color: #FFF;
+}
+
+.pagination li a:hover {
+    border:solid 1px #000;
+    background:#000000;
+    color:#FFFFFF;
+}
+
+/* JS SORTABLE */
+table.sortable thead {
+    background-color:#282828;
+    color:#FFF;
+    font-weight: bold;
+    cursor: default;
+    line-height: 25px;
+    text-transform: uppercase;
+}
+
+.sortable .altrow {
+    background: #CCC;
+}
+
+.sortable td {
+    padding: 5px;
+}
+
+.sortable {
+    font-size: 14px;
+}
+
+/* FOOTER */
+#footer {
+	padding: 15px 0px 0px 0px;
+}
+
+#footer p {
+	font-size: 10px;
+	font-style: italic;
+}
