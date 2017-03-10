@@ -20,7 +20,7 @@ CakeBlog is an open source blogging software. Written by [George Whitcher](http:
 ## Updating CakeBlog
 1. Login to your CakeBlog administration.
 1. Go to `Update` on the menu and download the files automatically from the latest GIT repository.
-1. Open terminal and run `bin/cake migrations migrate`.  To install any database changes.  It is also suggested you update your CakePHP installation as well `composer update`.
+1. Open terminal and run `bin/cake migrations migrate`.  It is also suggested you update your CakePHP installation as well `composer update`.
 
 **NOTE:**
 It is important NOT to make changes to the core CakeBlog files as they will be overwritten when updated.
