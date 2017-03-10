@@ -14,6 +14,7 @@
  */
 namespace App\Console;
 
+use Cake\Utility\Security;
 use Composer\Script\Event;
 use Exception;
 
@@ -38,19 +39,20 @@ class Installer
         $rootDir = dirname(dirname(__DIR__));
 
         static::createAppConfig($rootDir, $io);
+        static::createWritableDirectories($rootDir, $io);
 
         // ask if the permissions should be changed
         if ($io->isInteractive()) {
-            $validator = (function ($arg) {
+            $validator = function ($arg) {
                 if (in_array($arg, ['Y', 'y', 'N', 'n'])) {
                     return $arg;
                 }
                 throw new Exception('This is not a valid answer. Please choose Y or n.');
-            });
+            };
             $setFolderPermissions = $io->askAndValidate(
                 '<info>Set Folder Permissions ? (Default to Y)</info> [<comment>Y,n</comment>]? ',
                 $validator,
-                false,
+                10,
                 'Y'
             );
 
@@ -86,6 +88,35 @@ class Installer
     }
 
     /**
+     * Create the `logs` and `tmp` directories.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function createWritableDirectories($dir, $io)
+    {
+        $paths = [
+            'logs',
+            'tmp',
+            'tmp/cache',
+            'tmp/cache/models',
+            'tmp/cache/persistent',
+            'tmp/cache/views',
+            'tmp/sessions',
+            'tmp/tests'
+        ];
+
+        foreach ($paths as $path) {
+            $path = $dir . '/' . $path;
+            if (!file_exists($path)) {
+                mkdir($path);
+                $io->write('Created `' . $path . '` directory');
+            }
+        }
+    }
+
+    /**
      * Set globally writable permissions on the "tmp" and "logs" directory.
      *
      * This is not the most secure default, but it gets people up and running quickly.
@@ -98,8 +129,8 @@ class Installer
     {
         // Change the permissions on a path and output the results.
         $changePerms = function ($path, $perms, $io) {
-            // Get current permissions in decimal format so we can bitmask it.
-            $currentPerms = octdec(substr(sprintf('%o', fileperms($path)), -4));
+            // Get permission bits from stat(2) result.
+            $currentPerms = fileperms($path) & 0777;
             if (($currentPerms & $perms) == $perms) {
                 return;
             }
@@ -144,17 +175,19 @@ class Installer
         $config = $dir . '/config/app.php';
         $content = file_get_contents($config);
 
-        $newKey = hash('sha256', $dir . php_uname() . microtime(true));
+        $newKey = hash('sha256', Security::randomBytes(64));
         $content = str_replace('__SALT__', $newKey, $content, $count);
 
         if ($count == 0) {
             $io->write('No Security.salt placeholder to replace.');
+
             return;
         }
 
         $result = file_put_contents($config, $content);
         if ($result) {
             $io->write('Updated Security.salt value in config/app.php');
+
             return;
         }
         $io->write('Unable to update Security.salt value.');

@@ -15,7 +15,6 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 
 /**
@@ -34,43 +33,80 @@ class AppController extends Controller
      *
      * Use this method to add common initialization code like loading components.
      *
+     * e.g. `$this->loadComponent('Security');`
+     *
      * @return void
      */
     public function initialize()
     {
+        parent::initialize();
+
+        $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+
+        //Users
         $this->loadComponent('Auth', [
             'loginRedirect' => [
-                'controller' => 'admin',
+                'controller' => 'Admin',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
-                'controller' => 'Blog',
-                'action' => 'home'
+                'controller' => 'Users',
+                'action' => 'login'
             ]
         ]);
-        $this->set('current_user', $this->Auth->user());
+        $current_user = $this->Auth->user();
+        $this->set(compact('current_user'));
+
+        //Layout
+        $this->viewBuilder()->layout(CAKEBLOG_THEME);
+    }
+
+    /**
+     * Before render callback.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return \Cake\Network\Response|null|void
+     */
+    public function beforeRender(Event $event) {
+        if (!array_key_exists('_serialize', $this->viewVars) &&
+            in_array($this->response->type(), ['application/json', 'application/xml'])
+        ) {
+            $this->set('_serialize', true);
+        }
+
+        if ($this->request->params['controller'] != 'Install') {
+            $this->loadNavigation();
+            $this->loadSidebars();
+        }
+    }
+
+    public function loadNavigation() {
+        //Load navigation items
+        $this->loadModel('Navigation');
+        $this->set('main_navigation', $main_navigation = $this->Navigation->find('all', array('order' => 'position ASC')));
+    }
+
+    public function loadSidebars() {
+        //Load sidebars
+        $this->loadModel('Sidebar');
+        $this->set('sidebars', $sidebars = $this->Sidebar->find('all', array('order' => 'position ASC')));
+        //Load categories for sidebar into array that also counts posts
+        $this->loadModel('Categories');
+        $sidebar_categories = $this->Categories->find('all', array('order' => 'id DESC'));
+        $cat_array = array();
+        foreach ($sidebar_categories as $sidebar_category) {
+            $cat_controller = new CategoriesController();
+            $post_count = $cat_controller->count_posts_in_category($sidebar_category->id);
+
+            $cat_array[] = array('id' => $sidebar_category->id, 'post_type_id' => $sidebar_category->post_type_id, 'title' => $sidebar_category->title, 'slug' => $sidebar_category->slug, 'count' => $post_count);
+        }
+        $this->set(compact('cat_array'));
     }
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        //LOAD LAYOUT
-        $this->layout = Configure::read('cakeblog_theme');
-    }
-
-    public function beforeRender(Event $event)
-    {
-        parent::beforeRender($event);
-        //ALLOW CONTROLLER ACTIONS
-        $this->Auth->allow('load_pages', 'home', 'article_view', 'rss', 'categories', 'contact', 'captcha_image');
-
-        $this->loadModel('Navigation');
-        $this->set('main_navigation', $main_navigation = $this->Navigation->find('all', array('order' => 'position ASC')));
-
-        $this->loadModel('Sidebar');
-        $this->set('main_sidebar', $main_sidebar = $this->Sidebar->find('all', array('order' => 'position ASC')));
-
-        $this->loadModel('Categories');
-        $this->set('sidebar_categories', $sidebar_categories = $this->Categories->find('all', array('order' => 'title ASC')));
+        /* AUTHENTICATION */
+        $this->Auth->allow();
     }
 }

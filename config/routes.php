@@ -19,7 +19,9 @@
  */
 
 use Cake\Core\Plugin;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
+use Cake\Routing\Route\DashedRoute;
 
 /**
  * The default class to use for all routes
@@ -31,7 +33,7 @@ use Cake\Routing\Router;
  * - InflectedRoute
  * - DashedRoute
  *
- * If no call is made to `Router::defaultRouteClass`, the class used is
+ * If no call is made to `Router::defaultRouteClass()`, the class used is
  * `Route` (`Cake\Routing\Route\Route`)
  *
  * Note that `Route` does not do any inflections on URLs which will result in
@@ -39,102 +41,54 @@ use Cake\Routing\Router;
  * `:action` markers.
  *
  */
-Router::defaultRouteClass('Route');
+Router::defaultRouteClass(DashedRoute::class);
 
-Router::scope('/', function ($routes) {
+Router::scope('/', function (RouteBuilder $routes) {
+    $routes->connect('/', ['controller' => 'Pages2', 'action' => 'home']);
 
+    $routes->connect('/*', ['controller' => 'Articles', 'action' => 'view']);
 
-    /* BLOG */
-    $routes->connect('/', array('controller' => 'Blog', 'action' => 'home'));
-    $routes->connect('/archive/*', array('controller' => 'Blog', 'action' => 'home'));
-    $routes->connect('/:id/*', array('controller' => 'Blog', 'action' => 'article_view'), array('pass' => array('id', 'slug'), 'id' => '[0-9]+'));
-    $routes->connect('/category/:id/*', array('controller' => 'Blog', 'action' => 'categories'), array('pass' => array('id', 'slug'), 'id' => '[0-9]+'));
-    $routes->connect('/category/archive/:id/*', array('controller' => 'Blog', 'action' => 'categories'), array('pass' => array('id', 'slug'), 'id' => '[0-9]+'));
-    $routes->connect('/rss', array('controller' => 'Blog', 'action' => 'rss'));
-    $routes->connect('/rss.rss', array('controller' => 'Blog', 'action' => 'rss'));
+    $routes->connect('/blog/*', ['controller' => 'Articles', 'action' => 'index']);
 
-    /** CONTACT **/
-    $routes->connect('/contact', array('controller' => 'Contact', 'action' => 'contact'));
-    $routes->connect('/contact/captcha_image', array('controller' => 'Contact', 'action' => 'captcha_image'));
+    $routes->connect('/projects', ['controller' => 'Articles', 'action' => 'postType', 'projects']);
+    $routes->connect('/portfolio', ['controller' => 'Articles', 'action' => 'postType', 'portfolio']);
 
-    /** ADMIN MAIN & USER **/
-    $routes->connect('/admin', array('controller' => 'Users', 'action' => 'dashboard'));
-    $routes->connect('/users/login', array('controller' => 'Users', 'action' => 'login'));
-    $routes->connect('/admin/logout', array('controller' => 'Users', 'action' => 'logout'));
-    $routes->connect('/admin/users', array('controller' => 'Users', 'action' => 'users'));
-    $routes->connect('/admin/users/archive/*', array('controller' => 'Users', 'action' => 'users'));
-    $routes->connect('/admin/users/add', array('controller' => 'Users', 'action' => 'user_add'));
-    $routes->connect('/admin/users/edit/*', array('controller' => 'Users', 'action' => 'user_edit'));
-    $routes->connect('/admin/users/delete/*', array('controller' => 'Users', 'action' => 'user_delete'));
-    $routes->connect('/admin/users/view/*', array('controller' => 'Users', 'action' => 'user_view'));
+    $routes->connect('/projects/*', ['controller' => 'Articles', 'action' => 'view']);
+    $routes->connect('/portfolio/*', ['controller' => 'Articles', 'action' => 'view']);
 
-    /* ARTICLES */
-    $routes->connect('/admin/articles', array('controller' => 'Articles', 'action' => 'articles'));
-    $routes->connect('/admin/articles/archive/*', array('controller' => 'Articles', 'action' => 'articles'));
-    $routes->connect('/admin/articles/add', array('controller' => 'Articles', 'action' => 'article_add'));
-    $routes->connect('/admin/articles/edit/*', array('controller' => 'Articles', 'action' => 'article_edit'));
-    $routes->connect('/admin/articles/delete/*', array('controller' => 'Articles', 'action' => 'article_delete'));
+    $routes->connect('/rss', ['controller' => 'Articles', 'action' => 'rss']);
 
-    /* CATEGORIES */
-    $routes->connect('/admin/categories', array('controller' => 'Categories', 'action' => 'categories'));
-    $routes->connect('/admin/categories/archive/*', array('controller' => 'Categories', 'action' => 'categories'));
-    $routes->connect('/admin/categories/add', array('controller' => 'Categories', 'action' => 'category_add'));
-    $routes->connect('/admin/categories/edit/*', array('controller' => 'Categories', 'action' => 'category_edit'));
-    $routes->connect('/admin/categories/delete/*', array('controller' => 'Categories', 'action' => 'category_delete'));
+    $routes->connect('/author/*', ['controller' => 'Author', 'action' => 'index']);
 
-    /* PAGES */
-    $routes->connect('/admin/pages', array('controller' => 'Pages', 'action' => 'pages'));
-    $routes->connect('/admin/pages/archive/*', array('controller' => 'Pages', 'action' => 'pages'));
-    $routes->connect('/admin/pages/add', array('controller' => 'Pages', 'action' => 'page_add'));
-    $routes->connect('/admin/pages/edit/*', array('controller' => 'Pages', 'action' => 'page_edit'));
-    $routes->connect('/admin/pages/delete/*', array('controller' => 'Pages', 'action' => 'page_delete'));
+    $routes->connect('/category/*', ['controller' => 'Categories', 'action' => 'index']);
 
-    /* SIDEBARS */
-    $routes->connect('/admin/sidebars', array('controller' => 'Sidebar', 'action' => 'sidebars'));
-    $routes->connect('/admin/sidebars/archive/*', array('controller' => 'Sidebar', 'action' => 'sidebars'));
-    $routes->connect('/admin/sidebars/add', array('controller' => 'Sidebar', 'action' => 'sidebar_add'));
-    $routes->connect('/admin/sidebars/edit/*', array('controller' => 'Sidebar', 'action' => 'sidebar_edit'));
-    $routes->connect('/admin/sidebars/delete/*', array('controller' => 'Sidebar', 'action' => 'sidebar_delete'));
-    $routes->connect('/admin/sidebars/reorder/*', array('controller' => 'Sidebar', 'action' => 'sidebar_reorder'));
+    $routes->connect('/contact', ['controller' => 'Contact', 'action' => 'index']);
 
-    /* NAVIGATION */
-    $routes->connect('/admin/navigation', array('controller' => 'Navigation', 'action' => 'navigation'));
-    $routes->connect('/admin/navigation/archive/*', array('controller' => 'Navigation', 'action' => 'navigation'));
-    $routes->connect('/admin/navigation/add', array('controller' => 'Navigation', 'action' => 'navigation_add'));
-    $routes->connect('/admin/navigation/edit/*', array('controller' => 'Navigation', 'action' => 'navigation_edit'));
-    $routes->connect('/admin/navigation/delete/*', array('controller' => 'Navigation', 'action' => 'navigation_delete'));
-    $routes->connect('/admin/navigation/reorder/*', array('controller' => 'Navigation', 'action' => 'navigation_reorder'));
+    $routes->connect('/search', ['controller' => 'Search', 'action' => 'index']);
 
-    /* UPDATER */
-    $routes->connect('/admin/updater', array('controller' => 'Updater', 'action' => 'updater'));
+    $routes->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
+    $routes->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
 
-    /* AUTOLOAD PAGES */
-    $routes->connect('/*', array('controller' => 'Pages', 'action' => 'load_pages'));
+    $routes->connect('/admin', ['controller' => 'Admin', 'action' => 'index']);
 
-    /**
-     * Connect catchall routes for all controllers.
-     *
-     * Using the argument `InflectedRoute`, the `fallbacks` method is a shortcut for
-     *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'InflectedRoute']);`
-     *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'InflectedRoute']);`
-     *
-     * Any route class can be used with this method, such as:
-     * - DashedRoute
-     * - InflectedRoute
-     * - Route
-     * - Or your own route class
-     *
-     * You can remove these routes once you've connected the
-     * routes you want in your application.
-     */
-    $routes->fallbacks('InflectedRoute');
+    $routes->connect('/install', ['controller' => 'Install', 'action' => 'index']);
+
+    $routes->fallbacks(DashedRoute::class);
 });
 
-/**
- * Load all plugin routes.  See the Plugin documentation on
- * how to customize the loading of plugin routes.
- */
-Plugin::routes();
+Router::prefix('admin', function ($routes) {
+    // All routes here will be prefixed with `/admin`
+    // And have the prefix => admin route element added
+    $routes->redirect('/users/login', BASE_URL.'/users/login', ['status' => 302]);
+    $routes->redirect('/users/logout', BASE_URL.'/users/logout', ['status' => 302]);
 
-/* EXTENSIONS */
-Router::extensions('rss');
+    //Post type fallback for older PHP versions
+    $routes->connect('/posttype', ['controller' => 'PostType', 'action' => 'index']);
+    $routes->connect('/posttype/add', ['controller' => 'PostType', 'action' => 'add']);
+    $routes->connect('/posttype/edit/*', ['controller' => 'PostType', 'action' => 'edit']);
+    $routes->connect('/posttype/delete/*', ['controller' => 'PostType', 'action' => 'delete']);
+
+    $routes->fallbacks(DashedRoute::class);
+});
+
+Plugin::routes();

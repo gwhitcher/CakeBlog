@@ -1,0 +1,102 @@
+/* Styles by GW */
+
+body {
+    background: #000;
+}
+
+.main-container {
+    background: #FFF;
+}
+
+/* Flash Message */
+.alert {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 9999;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+/* Nav */
+@media (min-width: 768px) {
+    .navbar .container-fluid, .navbar-collapse {
+        padding-left: 0px;
+    }
+
+    .navbar-collapse.in {
+        padding-left: 30px;
+    }
+}
+
+/* Page header */
+.page-header-top {
+    padding-bottom: 9px;
+    margin: 20px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Articles */
+.post {
+    margin: 15px 0px 15px 0px;
+}
+.post h2 {
+    margin-top: 15px;
+}
+.post-details {
+    width: 100%;
+    max-width: 100%;
+    float: left;
+    clear: both;
+    text-align: left;
+    margin-bottom: 15px;
+}
+.post-details div {
+    float: left;
+    margin: 0px 10px 0px 0px;
+    font-size: 11px;
+    text-align: left;
+}
+@media (max-width:768px) {
+    .post-details div {
+        margin: 5px 10px 5px 0px;
+    }
+}
+.author_block {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+.author_block .author_image {
+    margin-left: 5px;
+}
+
+/* Gallery */
+.gallery .row {
+    margin: 10px 0px;
+}
+
+/* Instagram */
+.instagram .row {
+    margin: 10px 0px;
+}
+
+/* Videos */
+.video-container {
+    float: none;
+    clear: both;
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+    margin-bottom: 15px;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

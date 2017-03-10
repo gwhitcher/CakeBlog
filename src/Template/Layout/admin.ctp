@@ -1,51 +1,95 @@
+<?php include('pages_array.php'); ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<?php echo $this->Html->charset(); ?>
-<title>Administration: <?php echo Configure::read('site_title');?> - <?php echo $title_for_layout; ?></title>
-<?php
-	echo $this->Html->meta('icon');
-	echo $this->Html->css('admin');
-	echo $this->Html->script('jquery');
-    echo $this->Html->script('jquery-ui');
-	echo $this->Html->script('sorttable');
-	echo $this->Html->script('tinymce/tinymce.min.js');
-	echo $this->Html->script('default');
-	echo $this->fetch('meta');
-	echo $this->fetch('css');
-	echo $this->fetch('script');
-?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="George Whitcher">
+    <link rel="icon" href="<?php echo BASE_URL; ?>/favicon.ico">
+
+    <title>Administration<?php if(!empty($title_for_layout)) { echo ' : '.$title_for_layout; } ?></title>
+
+    <!-- Bootstrap -->
+    <?= $this->Html->css('/resources/bootstrap/css/bootstrap.min.css'); ?>
+
+    <!-- Custom -->
+    <?= $this->Html->css('/css/admin.css'); ?>
+
+    <!-- Jquery -->
+    <?= $this->Html->script('/resources/jquery/jquery.js'); ?>
+
+    <!--Jquery-UI-->
+    <?= $this->Html->script('/resources/jquery-ui/jquery-ui.min.js'); ?>
+    <?= $this->Html->css('/resources/jquery-ui/jquery-ui.css'); ?>
+
+    <!--TinyMCE-->
+    <?= $this->Html->script('/resources/tinymce/tinymce.min.js'); ?>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-	<div id="container">
-    <div id="container_padding">
-		<header id="header">
-			<h1><?php echo Configure::read('site_title');?></h1>
-            <h2><?php echo Configure::read('sub_title');?></h2>
-		</header>
-        <nav id="nav">
-        <ul>
-        	<li><a href="<?php echo Configure::read('BASE_URL');?>/">Home</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin">Administration Home</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/articles">Articles</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/categories">Categories</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/pages">Pages</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/sidebars">Sidebar</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/navigation">Navigation</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/users">Users</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/updater">Update</a></li>
-            <li><a href="<?php echo Configure::read('BASE_URL');?>/admin/logout">Logout</a></li>
-        </ul>
-        </nav>
-		<section id="content">
-        <div id="container_padding">
-            <?php echo $this->Flash->render(); ?>
-            <?php echo $this->fetch('content'); ?>
-		</div>
-        </section>
-		<footer id="footer">
-		<p>CakeBlog: <?php echo Configure::read('cakeblog_version');?> <a href="http://cakephp.org" target="_blank">CakePHP</a>: <?php echo Configure::version(); ?></p>
-		</footer>
-	</div></div>
+<?= $this->Flash->render() ?>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php echo BASE_URL; ?>/admin"><?php echo SITE_TITLE; ?> Administration</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <?php foreach($pages_array as $page) { ?>
+                            <li<?php nav_active_array($page[2]); ?>><a href="<?php echo $page[1]; ?>"><?php echo $page[3];?> <?php echo $page[0]; ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </li>
+                <li><a href="<?php echo BASE_URL; ?>" target="_blank">Visit Site</a></li>
+                <li><a class="logout" href="<?php echo BASE_URL; ?>/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <?php foreach($pages_array as $page) { ?>
+                    <li<?php nav_active_array($page[2]); ?>><a href="<?php echo $page[1]; ?>"><?php echo $page[3];?> <?php echo $page[0]; ?></a></li>
+                <?php } ?>
+            </ul>
+            <footer>
+                <p class="text-center">
+                    &copy; Copyright 2016 - <?php echo date("Y"); ?>.
+                    <br />
+                    <?php echo SITE_TITLE; ?> is powered by <a href="//georgewhitcher.com/projects/cakeblog" target="_blank">CakeBlog</a>
+                </p>
+            </footer>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <?= $this->fetch('content') ?>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<?= $this->Html->script('/resources/bootstrap/js/bootstrap.min.js'); ?>
+<!-- JS -->
+<?= $this->Html->script('/js/admin.js'); ?>
 </body>
 </html>

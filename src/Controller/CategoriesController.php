@@ -2,81 +2,52 @@
 namespace App\Controller;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Utility\Inflector;
 
 class CategoriesController extends AppController {
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-    }
-
-    public function beforeFilter(Event $event) {
-        parent::beforeFilter($event);
-        //LOAD LAYOUT
-        $this->layout = 'admin';
-        //LOAD MODEL
-        $this->loadModel('Category');
-    }
-   
-    public function categories() {
-        $this->set('title_for_layout', 'Categories');
-        $this->paginate = [
-            'limit' => 10,
-            'order' => [
-                'Category.id' => 'desc'
-            ]
-        ];
-        $categories = $this->paginate($this->Category);
-        $this->set(compact('categories'));
-    }
-
-    public function category_add() {
-        $this->set('title_for_layout', 'Add Category');
-        $category = $this->Category->newEntity($this->request->data);
-        if ($this->request->is('post')) {
-            $category->slug = strtolower(Inflector::slug($category->title));
-            if ($this->Category->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
-                return $this->redirect("".Configure::read('BASE_URL')."/admin/categories");
-            }
-            $this->Flash->error(__('Unable to add category.'));
-        }
-        $this->set('category', $category);
-    }
-
-    public function category_edit($id = null) {
-		$category = $this->Category->get($id);
+    
+    public function index($slug = NULL) {
+        $category = $this->Categories->find('all')->where(['Categories.slug' => $slug])->first();
         $this->set('title_for_layout', $category->title);
+        $this->set('description_for_layout', $category->metadescription);
+        $this->set('keywords_for_layout', $category->metakeywords);
+        $this->set(compact('category'));
         if (empty($category)) {
             throw new NotFoundException('Could not find that category.');
         }
-        else {
-            $this->set(compact('category'));
+        $this->loadModel('article_categories');
+        $article_categories = $this->article_categories->find('all')->where(['category_id' => $category->id]);
+        $article_ids = array();
+        foreach($article_categories as $article_category) {
+            $article_ids[] = $article_category->article_id;
         }
-        if ($this->request->is(['post', 'put'])) {
-            $this->Category->patchEntity($category, $this->request->data);
-            $category->slug = strtolower(Inflector::slug($category->title));
-            if ($this->Category->save($category)) {
-                $this->Flash->success(__('The category has been updated.'));
-                return $this->redirect("".Configure::read('BASE_URL')."/admin/categories");
-            }
-            $this->Flash->error(__('Unable to edit category.'));
-        }
+        $this->loadModel('Articles');
+        $this->paginate = [
+            'conditions' => [
+                'Articles.id IN' => $article_ids,
+                'Articles.status' => 1
+            ],
+            'contain' => ['users', 'categories'],
+            'limit' => ARTICLES_PER_PAGE,
+            'order' => [
+                'Articles.id' => 'desc'
+            ]
+        ];
+        $articles = $this->paginate($this->Articles);
+        $this->set(compact('articles'));
+
+        $slider_articles = $this->Articles->find('all')->where(['status' => 1, 'slider' => 1, 'Articles.id IN' => $article_ids])->order(['id' => 'DESC'])->limit(SLIDER_ARTICLES_PER_PAGE);
+        $this->set(compact('slider_articles'));
+
+        //Load theme
+        $this->viewBuilder()->templatePath('Themes/'.CAKEBLOG_THEME);
+        $this->render('categories.index');
     }
 
-    public function category_delete($id = null) {
-        $this->set('title_for_layout', 'Delete Category');
-        $this->request->allowMethod(['post', 'delete']);
-        $category = $this->Category->get($id);
-        if ($this->Category->delete($category)) {
-            $this->Flash->success(__('The category with id: {0} has been deleted.', h($id)));
-            return $this->redirect("".Configure::read('BASE_URL')."/admin/categories");
-        }
+    public function count_posts_in_category($category_id = NULL) {
+        $this->loadModel('article_categories');
+        $article_categories = $this->article_categories->find('all')->where(['category_id' => $category_id]);
+        $articles_count = $article_categories->count();
+        return $articles_count;
     }
-	
-	
 }

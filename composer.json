@@ -1,25 +1,43 @@
 {
-  "name": "gwhitcher/cakeblog",
-  "description": "An open source blog software. Written in PHP with the CakePHP framework.",
-  "type": "project",
-  "license": "MIT",
-  "version": "1.0.0",
-  "require": {
-    "php": ">=5.4",
-    "cakephp/cakephp": "~3.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "cakeblog\\": "./vendor/gwhitcher/cakeblog/src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "cakeblog\\Test\\": "tests",
-      "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
-    }
-  }
+    "name": "gwhitcher/cakeblog",
+    "description": "An open source blog software. Written in PHP with the CakePHP framework.",
+    "homepage": "http://georgewhitcher.com",
+    "version": "1.0.0",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5.9",
+        "cakephp/cakephp": "3.3.*",
+        "mobiledetect/mobiledetectlib": "2.*",
+        "cakephp/migrations": "~1.0",
+        "cakephp/plugin-installer": "*"
+    },
+    "require-dev": {
+        "psy/psysh": "@stable",
+        "cakephp/debug_kit": "~3.2",
+        "cakephp/bake": "~1.1",
+        "composer/composer": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": "App\\Console\\Installer::postInstall",
+        "post-create-project-cmd": "App\\Console\\Installer::postInstall",
+        "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
+        "check": [
+            "@test"
+        ],
+        "test": "vendor/bin/phpunit --colors=always"
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
 }
