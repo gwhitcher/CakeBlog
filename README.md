@@ -12,7 +12,7 @@ CakeBlog is an open source blogging software. Written by [George Whitcher](http:
 `cakeblog-config.default.php` to `cakeblog-config.php`,
 `cakeblog-functions.default.php` to `cakeblog-functions.php`, and
 `routes.default.php` to `routes.php`
-1. Install MySQL database and administrator and enter information in your app.php.
+1. Create MySQL database and user and enter information in your app.php.
 1. Run migrations by running `bin/cake migrations migrate`.
 1. Mark the migration completed by running `bin/cake migrations mark_migrated`
 1. You are now setup!  A default user `admin` and password `admin` is created by default.  Please login by visiting http://domain.com/admin and change this immediately.
