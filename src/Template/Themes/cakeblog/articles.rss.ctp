@@ -7,7 +7,7 @@ $this->set('channelData', [
 ]);
 foreach ($articles as $article) {
     $postTime = strtotime($article->created_at);
-    $postLink = BASE_URL.'/'.$article->id.'/'.$article->slug.'';
+    $postLink = BASE_URL.'/'.$article->slug.'';
     // Remove & escape any HTML to make sure the feed content will validate.
     $body = substr($article->body,0,300);
     $bodyText = strip_tags($body, '<br>').'...';
