@@ -99,3 +99,9 @@ body {
 .cog-list {
     font-size: 28px;
 }
+
+/* ADS */
+.advertisement {
+    text-align: center;
+    margin: 10px;
+}
